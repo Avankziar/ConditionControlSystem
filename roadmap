@@ -1,0 +1,9 @@
+Update alle Plugin mit folgenden Methoden:
+- Main.class >> BonusMalusConsumer, setupBonusMalus(), getServername()
+- YamlHandler.class >> File BMLang für alle Bypass Perm
+- BaseConstructor.class >> boolean putUpCmdPermToBonusMalusSystem
+- BonusMalusPermission.class
+- YamlManager.class >> commandsInput() um boolean putUpCmdPermToBonusMalusSystem, String dnGerman, String dnEnglish, String exGerman, String exEnglish
+  						erweitern. Gleiches für argumentInput()
+  					>> initBonusMalusLanguage()
+- ChatApi.class >> hoverEvent(String text, ...) ändern. Damit in Hover Hex angezeit werden kann.
