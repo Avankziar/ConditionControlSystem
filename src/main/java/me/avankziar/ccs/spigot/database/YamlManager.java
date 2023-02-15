@@ -374,7 +374,7 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"%displayname%&r: ",
 						"%displayname%&r: "}));
-		languageKeys.put("CmdEntry.ConditonDescriptionTwo", 
+		languageKeys.put("CmdEntry.ConditionDescriptionTwo", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"%value% Einträge",
 						"%value% entrys"}));
@@ -402,6 +402,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&c〼~click@SUGGEST_COMMAND@%cmd%+%c%+<Spieler>+<Grund...>~hover@SHOW_TEXT@&eKlicke+hier+zum+entfernen+einer+Condition+für+einen+Spieler!",
 						"&c〼~click@SUGGEST_COMMAND@%cmd%+%c%+<player>+<reason...>~hover@SHOW_TEXT@&eClick+here+to+remove+a+condition+for+a+player!"}));
+		languageKeys.put("CmdRemove.Remove", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler &f%player% &ehat die &f%count% &eCondition &f%c% &emit dem Grund &f%reason% &cverloren!",
+						"&eThe player &f%player% &ehas &clost &ethe &f%count% &econdition &f%c% &ewith the reason &f%reason%&e!"}));
 	}
 	
 	public void initConditionBonusMalusLanguage() //INFO:BonusMalusLanguages

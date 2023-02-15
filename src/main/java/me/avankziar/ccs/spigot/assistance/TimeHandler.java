@@ -60,65 +60,83 @@ public class TimeHandler
 	{
 		long ll = l;
 		String year = "";
-		int y = 0;
-		while(ll >= yyyy)
+		if(timeformat.contains("yyyy"))
 		{
-			ll = ll - yyyy;
-			y++;
-		}
-		year += String.valueOf(y);
+			int y = 0;
+			while(ll >= yyyy)
+			{
+				ll = ll - yyyy;
+				y++;
+			}
+			year += String.valueOf(y);
+		}		
 		String month = "";
-		int M = 0;
-		while(ll >= MM)
+		if(timeformat.contains("MM"))
 		{
-			ll = ll - MM;
-			M++;
+			int M = 0;
+			while(ll >= MM)
+			{
+				ll = ll - MM;
+				M++;
+			}
+			month += String.valueOf(M);
 		}
-		month += String.valueOf(M);
 		String day = "";
-		int d = 0;
-		while(ll >= dd)
+		if(timeformat.contains("dd"))
 		{
-			ll = ll - dd;
-			d++;
+			int d = 0;
+			while(ll >= dd)
+			{
+				ll = ll - dd;
+				d++;
+			}
+			day += String.valueOf(d);
 		}
-		day += String.valueOf(d);
-		int H = 0;
 		String hour = "";
-		while(ll >= HH)
+		if(timeformat.contains("HH"))
 		{
-			ll = ll - HH;
-			H++;
-		}
-		if(H < 10)
-		{
-			hour += String.valueOf(0);
-		}
-		hour += String.valueOf(H);
-		int m = 0;
+			int H = 0;
+			while(ll >= HH)
+			{
+				ll = ll - HH;
+				H++;
+			}
+			if(H < 10)
+			{
+				hour += String.valueOf(0);
+			}
+			hour += String.valueOf(H);
+		}		
 		String min = "";
-		while(ll >= mm)
+		if(timeformat.contains("mm"))
 		{
-			ll = ll - mm;
-			m++;
+			int m = 0;
+			while(ll >= mm)
+			{
+				ll = ll - mm;
+				m++;
+			}
+			if(m < 10)
+			{
+				min += String.valueOf(0);
+			}
+			min += String.valueOf(m);
 		}
-		if(m < 10)
-		{
-			min += String.valueOf(0);
-		}
-		min += String.valueOf(m)+":";
-		int s = 0;
 		String sec = "";
-		while(ll >= ss)
+		if(timeformat.contains("ss"))
 		{
-			ll = ll - ss;
-			s++;
+			int s = 0;
+			while(ll >= ss)
+			{
+				ll = ll - ss;
+				s++;
+			}
+			if(s < 10)
+			{
+				sec += String.valueOf(0);
+			}
+			sec+= String.valueOf(s);
 		}
-		if(s < 10)
-		{
-			sec += String.valueOf(0);
-		}
-		sec+= String.valueOf(s);
 		String time = timeformat.replace("yyyy", year)
 								.replace("MM", month)
 								.replace("dd", day)

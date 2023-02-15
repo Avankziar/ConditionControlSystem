@@ -26,10 +26,10 @@ public class ARGRemove extends ArgumentModule
 	@Override
 	public void run(CommandSender sender, String[] args) throws IOException
 	{
-		String bonusmalus = args[1];
+		String condition = args[1];
 		String othername = args[2];
 		String reason = "";
-		if(!plugin.getCondition().isRegistered(bonusmalus))
+		if(!plugin.getCondition().isRegistered(condition))
 		{
 			sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("CmdAdd.IsNotRegistered")));
 			return;
@@ -53,11 +53,13 @@ public class ARGRemove extends ArgumentModule
 		{
 			reason = "/";
 		}
-		final int count = plugin.getMysqlHandler().deleteData(MysqlHandler.Type.CONDITIONVALUE,
-				"`player_uuid` = ? AND `bonus_malus_name` = ? AND `reason` = ?", uuid.toString(), bonusmalus, reason);
-		plugin.getCondition().remove(uuid, bonusmalus, reason);
+		final int count = plugin.getMysqlHandler().getCount(MysqlHandler.Type.CONDITIONVALUE,
+				"`player_uuid` = ? AND `condition_name` = ? AND `reason` = ?", uuid.toString(), condition, reason);
+		plugin.getMysqlHandler().deleteData(MysqlHandler.Type.CONDITIONVALUE,
+				"`player_uuid` = ? AND `condition_name` = ? AND `reason` = ?", uuid.toString(), condition, reason);
+		plugin.getCondition().remove(uuid, condition, reason);
 		sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("CmdRemove.Remove")
-				.replace("%c%", bonusmalus)
+				.replace("%c%", condition)
 				.replace("%player%", othername)
 				.replace("%reason%", reason)
 				.replace("%count%", String.valueOf(count))

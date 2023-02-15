@@ -149,16 +149,16 @@ public class ARGEntry extends ArgumentModule
 				{
 					boolean boo = MatchPrimitiveDataTypes.getBoolean(v).booleanValue();
 					sb.append(boo
-							? "'"+plugin.getYamlHandler().getLang().getString("IsTrue")+"'"
-							: "'"+plugin.getYamlHandler().getLang().getString("IsFalse")+"'");
+							? "&r'"+plugin.getYamlHandler().getLang().getString("IsTrue")+"&r'"
+							: "&r'"+plugin.getYamlHandler().getLang().getString("IsFalse")+"&r'");
 				} else if(MatchPrimitiveDataTypes.isLong(v))
 				{
-					sb.append("'"+Long.parseLong(v)+"'");
+					sb.append("&r'&e"+Long.parseLong(v)+"&r'");
 				} else if(MatchPrimitiveDataTypes.isDouble(v))
 				{
-					sb.append("'"+Mathematic.round(Double.parseDouble(v), 2, RoundingMode.DOWN)+"'");
+					sb.append("&r'&e"+Mathematic.round(Double.parseDouble(v), 2, RoundingMode.DOWN)+"&r'");
 				}
-				sb.append(" >> '"+cv.getDisplayReason()+"'");
+				sb.append(" >> &r'"+cv.getDisplayReason()+"&r'");
 				if(cv.getDuration() > 0)
 				{
 					long dur = cv.getDuration()-System.currentTimeMillis();

@@ -195,7 +195,7 @@ public class ConditionValue implements MysqlHandable
 		}
 		return false;
 	}
-
+	
 	@Override
 	public ArrayList<Object> get(Connection conn, String tablename, String orderby, String limit, String whereColumn, Object... whereObject)
 	{
@@ -210,8 +210,8 @@ public class ConditionValue implements MysqlHandable
 				ps.setObject(i, o);
 				i++;
 			}
-			
 			ResultSet rs = ps.executeQuery();
+			
 			MysqlHandler.addRows(MysqlHandler.QueryType.READ, rs.getMetaData().getColumnCount());
 			ArrayList<Object> al = new ArrayList<>();
 			while (rs.next()) 
@@ -222,7 +222,7 @@ public class ConditionValue implements MysqlHandable
 								UUID.fromString(rs.getString("player_uuid")),
 								rs.getString("condition_name"),
 								rs.getString("condition_value"),
-								rs.getString("inten_reason"),
+								rs.getString("intern_reason"),
 								rs.getString("display_reason"),
 								rs.getString("server"),
 								rs.getString("world"),

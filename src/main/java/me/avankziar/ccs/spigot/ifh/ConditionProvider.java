@@ -27,7 +27,7 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 		ArrayList<Condition> clist = Condition.convert(plugin.getMysqlHandler()
 				.getFullList(MysqlHandler.Type.CONDITION, "`id`", "1"));
 		registeredC.addAll(clist);
-		CCS.log.info(clist.size()+" Bonus/Malus are registered!");
+		CCS.log.info(clist.size()+" Condition are registered!");
 	}
 	
 	public boolean isRegistered(String conditionName)
@@ -245,22 +245,22 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 		ArrayList<ConditionValue> cv = null;
 		if(server != null && world == null)
 		{
-			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE,
+			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE, "`id` ASC",
 					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ?"
 					, uuid.toString(), conditionName, server));
 		} else if(server == null && world != null)
 		{
-			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE,
+			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE, "`id` ASC",
 					"`player_uuid` = ? AND `condition_name` = ? AND `world` = ?"
 					, uuid.toString(), conditionName, world));
 		} else if(server != null && world != null)
 		{
-			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE,
+			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE, "`id` ASC",
 					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ? AND `world` = ?"
 					, uuid.toString(), conditionName, server, world));
 		} else
 		{
-			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE,
+			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE, "`id` ASC",
 					"`player_uuid` = ? AND `condition_name` = ?"
 					, uuid.toString(), conditionName));
 		}
