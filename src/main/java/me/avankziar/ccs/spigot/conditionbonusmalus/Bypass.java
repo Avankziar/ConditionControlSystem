@@ -8,7 +8,7 @@ public class Bypass
 {
 	public enum Permission
 	{
-		;
+		OTHERPLAYER;
 		
 		public String getCondition()
 		{

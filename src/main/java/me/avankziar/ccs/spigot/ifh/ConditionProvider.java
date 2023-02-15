@@ -42,6 +42,11 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 		return false;
 	}
 	
+	public ArrayList<Condition> getRegisteredC()
+	{
+		return registeredC;
+	}
+	
 	/**
 	 * Register a condition.
 	 * @param conditionName
@@ -225,35 +230,40 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 	return hasConditionEntry(uuid, conditionName);
 	}
 	
-	public String getConditionEntry(UUID uuid, String conditionName)
+	public String[] getConditionEntry(UUID uuid, String conditionName)
 	{
 		return getConditionEntry(uuid, conditionName, null, null);
 	}
 	
-	public String getConditionEntry(UUID uuid, String conditionName, String server, String world)
+	public String[] getConditionEntry(UUID uuid, String conditionName, String server, String world)
 	{
 		if(!isRegistered(conditionName)  || !hasConditionEntry(uuid, conditionName, server, world))
 		{
 			return null;
 		}
-		ConditionValue cv = null;
+		ArrayList<String> list = new ArrayList<>();
+		ArrayList<ConditionValue> cv = null;
 		if(server != null && world == null)
 		{
-			cv = (ConditionValue) plugin.getMysqlHandler().getData(MysqlHandler.Type.CONDITIONVALUE,
+			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE,
 					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ?"
-					, uuid.toString(), conditionName, server);
+					, uuid.toString(), conditionName, server));
 		} else if(server == null && world != null)
 		{
-			cv = (ConditionValue) plugin.getMysqlHandler().getData(MysqlHandler.Type.CONDITIONVALUE,
+			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE,
 					"`player_uuid` = ? AND `condition_name` = ? AND `world` = ?"
-					, uuid.toString(), conditionName, world);
+					, uuid.toString(), conditionName, world));
 		} else if(server != null && world != null)
 		{
-			cv = (ConditionValue) plugin.getMysqlHandler().getData(MysqlHandler.Type.CONDITIONVALUE,
+			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE,
 					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ? AND `world` = ?"
-					, uuid.toString(), conditionName, server, world);
+					, uuid.toString(), conditionName, server, world));
 		}
-		return cv != null ? cv.getValue() : null;
+		for(ConditionValue c : cv)
+		{
+			list.add(c.getValue());
+		}
+		return list.toArray(new String[list.size()]);
 	}
 	
 	public void addConditionEntry(UUID uuid, String conditionName,

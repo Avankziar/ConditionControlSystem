@@ -15,7 +15,6 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.SimplePluginManager;
@@ -23,8 +22,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import main.java.me.avankziar.ccs.spigot.assistance.BackgroundTask;
 import main.java.me.avankziar.ccs.spigot.assistance.Utility;
-import main.java.me.avankziar.ccs.spigot.cmd.BaseCommandExecutor;
+import main.java.me.avankziar.ccs.spigot.cmd.CCSCommandExecutor;
 import main.java.me.avankziar.ccs.spigot.cmd.TabCompletion;
+import main.java.me.avankziar.ccs.spigot.cmd.ccs.ARGAdd;
+import main.java.me.avankziar.ccs.spigot.cmd.ccs.ARGEntry;
+import main.java.me.avankziar.ccs.spigot.cmd.ccs.ARGRegistered;
+import main.java.me.avankziar.ccs.spigot.cmd.ccs.ARGRemove;
+import main.java.me.avankziar.ccs.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.ccs.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.ccs.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.ccs.spigot.cmdtree.CommandConstructor;
@@ -55,7 +59,6 @@ public class CCS extends JavaPlugin
 	private LinkedHashMap<String, ArgumentModule> argumentMap = new LinkedHashMap<>();
 	private ArrayList<String> players = new ArrayList<>();
 	
-	public static String infoCommandPath = "CmdBase";
 	public static String infoCommand = "/";
 	
 	public Administration administrationConsumer;
@@ -158,14 +161,24 @@ public class CCS extends JavaPlugin
 	
 	private void setupCommandTree()
 	{		
-		infoCommand += plugin.getYamlHandler().getCommands().getString("base.Name");
+		infoCommand += plugin.getYamlHandler().getCommands().getString("ccs.Name");
 		
 		TabCompletion tab = new TabCompletion(plugin);
 		
-		CommandConstructor base = new CommandConstructor(CommandExecuteType.BASEMAIN, "base", false);
-		registerCommand(base.getPath(), base.getName());
-		getCommand(base.getName()).setExecutor(new BaseCommandExecutor(plugin, base));
-		getCommand(base.getName()).setTabCompleter(tab);
+		ArgumentConstructor add = new ArgumentConstructor(CommandExecuteType.CCS_ADD, "ccs_add", 0, 6, 999, true, null);
+		new ARGAdd(add);
+		ArgumentConstructor entry = new ArgumentConstructor(CommandExecuteType.CCS_ENTRY, "ccs_boni", 0, 0, 3, true, null);
+		new ARGEntry(entry);
+		ArgumentConstructor registered = new ArgumentConstructor(CommandExecuteType.CCS_REGISTERED, "ccs_registered", 0, 0, 1, false, null);
+		new ARGRegistered(registered);
+		ArgumentConstructor remove = new ArgumentConstructor(CommandExecuteType.CCS_REMOVE, "ccs_remove", 0, 2, 999, true, null);
+		new ARGRemove(remove);
+		
+		CommandConstructor ccs = new CommandConstructor(CommandExecuteType.CCS, "ccs", false,
+				add, entry, registered, remove);
+		registerCommand(ccs.getPath(), ccs.getName());
+		getCommand(ccs.getName()).setExecutor(new CCSCommandExecutor(plugin, ccs));
+		getCommand(ccs.getName()).setTabCompleter(tab);
 	}
 	
 	public void setupBypassPerm()
@@ -320,7 +333,7 @@ public class CCS extends JavaPlugin
 	
 	public void setupListeners()
 	{
-		PluginManager pm = getServer().getPluginManager();
+		//PluginManager pm = getServer().getPluginManager();
 		//pm.registerEvents(new BackListener(plugin), plugin);
 	}
 	

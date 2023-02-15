@@ -21,15 +21,15 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class BaseCommandExecutor implements CommandExecutor
+public class CCSCommandExecutor implements CommandExecutor
 {
 	private CCS plugin;
 	private static CommandConstructor cc;
 	
-	public BaseCommandExecutor(CCS plugin, CommandConstructor cc)
+	public CCSCommandExecutor(CCS plugin, CommandConstructor cc)
 	{
 		this.plugin = plugin;
-		BaseCommandExecutor.cc = cc;
+		CCSCommandExecutor.cc = cc;
 	}
 	
 	@Override
@@ -175,7 +175,7 @@ public class BaseCommandExecutor implements CommandExecutor
 		{
 			lastpage = true;
 		}
-		pastNextPage(player, CCS.infoCommandPath, page, lastpage, CCS.infoCommand);
+		pastNextPage(player, page, lastpage, CCS.infoCommand);
 	}
 	
 	private void sendInfo(Player player, BaseConstructor bc)
@@ -186,7 +186,7 @@ public class BaseCommandExecutor implements CommandExecutor
 				HoverEvent.Action.SHOW_TEXT,plugin.getYamlHandler().getLang().getString("GeneralHover")));
 	}
 	
-	public void pastNextPage(Player player, String path,
+	public static void pastNextPage(Player player,
 			int page, boolean lastpage, String cmdstring, String...objects)
 	{
 		if(page==0 && lastpage)
@@ -200,7 +200,7 @@ public class BaseCommandExecutor implements CommandExecutor
 		if(page!=0)
 		{
 			TextComponent msg2 = ChatApi.tctl(
-					plugin.getYamlHandler().getLang().getString("Past"));
+					CCS.getPlugin().getYamlHandler().getLang().getString("Past"));
 			String cmd = cmdstring+" "+String.valueOf(j);
 			for(String o : objects)
 			{
@@ -212,7 +212,7 @@ public class BaseCommandExecutor implements CommandExecutor
 		if(!lastpage)
 		{
 			TextComponent msg1 = ChatApi.tctl(
-					plugin.getYamlHandler().getLang().getString("Next"));
+					CCS.getPlugin().getYamlHandler().getLang().getString("Next"));
 			String cmd = cmdstring+" "+String.valueOf(i);
 			for(String o : objects)
 			{

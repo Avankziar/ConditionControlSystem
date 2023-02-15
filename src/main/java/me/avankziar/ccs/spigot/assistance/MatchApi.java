@@ -10,8 +10,8 @@ public class MatchApi
 		{
 			return false;
 		}
-		if(boo.equalsIgnoreCase("true") || boo.equalsIgnoreCase("1")
-				|| boo.equalsIgnoreCase("false") || boo.equalsIgnoreCase("0"))
+		if(boo.equalsIgnoreCase("true")
+				|| boo.equalsIgnoreCase("false"))
 		{
 			return true;
 		}
