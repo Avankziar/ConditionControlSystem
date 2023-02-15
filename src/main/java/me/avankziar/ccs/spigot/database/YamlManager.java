@@ -159,6 +159,9 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"not_0123456789"}));
 		
+		configSpigotKeys.put("Condition.ConditionOverrulePermission"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
 		configSpigotKeys.put("DeleteOldDataTask.RunInSeconds"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				60}));;
@@ -169,7 +172,7 @@ public class YamlManager
 	{
 		comBypass();
 		String path = "ccs";
-		commandsInput(path, "bmc", "bmc.cmd.bmc", 
+		commandsInput(path, "bmc", "ccs.cmd.ccs", 
 				"/ccs [page]", "/ccs ", false,
 				"&c/ccs [Seite] &f| Infoseite für alle Befehle.",
 				"&c/ccs [page] &f| Info page for all commands.",
@@ -177,7 +180,7 @@ public class YamlManager
 				"&bCommandright for &f/ccs",
 				"&eInfoseite für alle Befehle.",
 				"&eInfo page for all commands.");
-		String perm = "bmc.cmd";		
+		String perm = "ccs.cmd";		
 		argumentInput(path+"_add", "add", perm,
 				"/ccs add <condition> <player> <global/server:servername/world:servername:worldname> <value> <0/dd-HH:mm> <internreason> <reason...>", "/ccs add ", false,
 				"&c/ccs add <Condition> <Spieler> <global/server:servername/world:servername:weltname> <Wert> <0/dd-HH:mm> <interner Grung> <Grund...> &f| Fügt dem angegeben Spieler eine Condition hinzu.",

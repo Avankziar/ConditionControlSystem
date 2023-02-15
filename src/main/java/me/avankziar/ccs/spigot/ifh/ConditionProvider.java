@@ -258,6 +258,11 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE,
 					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ? AND `world` = ?"
 					, uuid.toString(), conditionName, server, world));
+		} else
+		{
+			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE,
+					"`player_uuid` = ? AND `condition_name` = ?"
+					, uuid.toString(), conditionName));
 		}
 		for(ConditionValue c : cv)
 		{

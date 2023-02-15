@@ -167,7 +167,7 @@ public class CCS extends JavaPlugin
 		
 		ArgumentConstructor add = new ArgumentConstructor(CommandExecuteType.CCS_ADD, "ccs_add", 0, 6, 999, true, null);
 		new ARGAdd(add);
-		ArgumentConstructor entry = new ArgumentConstructor(CommandExecuteType.CCS_ENTRY, "ccs_boni", 0, 0, 3, true, null);
+		ArgumentConstructor entry = new ArgumentConstructor(CommandExecuteType.CCS_ENTRY, "ccs_entry", 0, 0, 3, true, null);
 		new ARGEntry(entry);
 		ArgumentConstructor registered = new ArgumentConstructor(CommandExecuteType.CCS_REGISTERED, "ccs_registered", 0, 0, 1, false, null);
 		new ARGRegistered(registered);

@@ -20,7 +20,7 @@ public class Condition implements MysqlHandable
 	
 	public Condition(String conditionName, String displayConditionName, String[] explanation)
 	{
-		setConditionName(displayConditionName);
+		setConditionName(conditionName);
 		setDisplayConditionName(displayConditionName);
 		ArrayList<String> ex = new ArrayList<>();
 		if(explanation != null)
