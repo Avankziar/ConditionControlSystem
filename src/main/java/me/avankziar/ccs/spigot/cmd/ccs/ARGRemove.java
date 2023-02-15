@@ -54,9 +54,9 @@ public class ARGRemove extends ArgumentModule
 			reason = "/";
 		}
 		final int count = plugin.getMysqlHandler().getCount(MysqlHandler.Type.CONDITIONVALUE,
-				"`player_uuid` = ? AND `condition_name` = ? AND `reason` = ?", uuid.toString(), condition, reason);
+				"`player_uuid` = ? AND `condition_name` = ? AND `intern_reason` = ?", uuid.toString(), condition, reason);
 		plugin.getMysqlHandler().deleteData(MysqlHandler.Type.CONDITIONVALUE,
-				"`player_uuid` = ? AND `condition_name` = ? AND `reason` = ?", uuid.toString(), condition, reason);
+				"`player_uuid` = ? AND `condition_name` = ? AND `intern_reason` = ?", uuid.toString(), condition, reason);
 		plugin.getCondition().remove(uuid, condition, reason);
 		sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("CmdRemove.Remove")
 				.replace("%c%", condition)
