@@ -126,15 +126,11 @@ public class YamlManager
 				true}));
 		configSpigotKeys.put("IFHAdministrationPath"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"bm"}));
-		/*
-		 * The normale single path. In the config make it no sense to add other language as English
-		 * But the ISO639_2B is here the default language from this plugin!
-		 */
+				"ccs"}));
+		
 		configSpigotKeys.put("ServerName"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"hub"}));
-		
 		configSpigotKeys.put("Mysql.Status"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
@@ -163,12 +159,12 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"not_0123456789"}));
 		
-		configSpigotKeys.put("EnableCommands.Base"
+		configSpigotKeys.put("DeleteOldDataTask.RunInSeconds"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
+				60}));;
 	}
 	
-	@SuppressWarnings("unused") //INFO:Commands
+	//INFO:Commands
 	public void initCommands()
 	{
 		comBypass();
