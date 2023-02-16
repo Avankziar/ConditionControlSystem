@@ -128,7 +128,7 @@ public class ConditionQueryParserProvider implements ConditionQueryParser
 		for(String split : conditionQuery_Vars_Output_List)
 		{
 			if(split.startsWith("if") || split.startsWith("elseif") || split.startsWith("else"))
-			{ //TODO Änderung aller bm & condition in SalE und BUP ändern.
+			{
 				//if:(a && b || c):Do.A
 				String[] s = split.split(":");
 				if(s.length != 3)
@@ -190,9 +190,9 @@ public class ConditionQueryParserProvider implements ConditionQueryParser
 				}
 			} else if(s.length == 4)
 			{
-				String a = s[1]; //TODO ConditionEntry hier holen
+				String a = s[1];
 				String va = s[2];
-				String b = s[3]; //TODO ConditionEntry hier holen
+				String b = s[3];
 				boo = parseBaseConditionQuery(a+":"+va+":"+b);
 			} else
 			{
