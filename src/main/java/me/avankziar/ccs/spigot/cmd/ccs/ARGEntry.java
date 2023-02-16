@@ -19,8 +19,8 @@ import main.java.me.avankziar.ccs.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.ccs.spigot.cmd.CCSCommandExecutor;
 import main.java.me.avankziar.ccs.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.ccs.spigot.cmdtree.ArgumentModule;
-import main.java.me.avankziar.ccs.spigot.conditionbonusmalus.Bypass;
 import main.java.me.avankziar.ccs.spigot.conditionbonusmalus.Bypass.Permission;
+import main.java.me.avankziar.ccs.spigot.conditionbonusmalus.ConditionBonusMalus;
 import main.java.me.avankziar.ccs.spigot.database.MysqlHandler;
 import main.java.me.avankziar.ccs.spigot.objects.Condition;
 import main.java.me.avankziar.ccs.spigot.objects.ConditionValue;
@@ -64,7 +64,7 @@ public class ARGEntry extends ArgumentModule
 		String othername = player.getName();
 		if(args.length >= 3)
 		{
-			if(!player.hasPermission(Bypass.get(Permission.OTHERPLAYER)))
+			if(!ConditionBonusMalus.hasPermission(player, Permission.OTHERPLAYER))
 			{
 				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("NoPermission")));
 				return;

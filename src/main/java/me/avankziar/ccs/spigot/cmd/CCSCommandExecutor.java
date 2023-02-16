@@ -16,6 +16,7 @@ import main.java.me.avankziar.ccs.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.ccs.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.ccs.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.ccs.spigot.cmdtree.CommandConstructor;
+import main.java.me.avankziar.ccs.spigot.conditionbonusmalus.ConditionBonusMalus;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -49,7 +50,7 @@ public class CCSCommandExecutor implements CommandExecutor
 			Player player = (Player) sender;
 			if(MatchApi.isInteger(args[0]))
 			{
-				if(!player.hasPermission(cc.getPermission()))
+				if(!ConditionBonusMalus.hasPermission(player, cc))
 				{
 					///Du hast dafür keine Rechte!
 					player.spigot().sendMessage(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("NoPermission")));
@@ -66,7 +67,7 @@ public class CCSCommandExecutor implements CommandExecutor
 				return false;
 			}
 			Player player = (Player) sender;
-			if(!player.hasPermission(cc.getPermission()))
+			if(!ConditionBonusMalus.hasPermission(player, cc))
 			{
 				///Du hast dafür keine Rechte!
 				player.spigot().sendMessage(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("NoPermission")));
@@ -88,7 +89,7 @@ public class CCSCommandExecutor implements CommandExecutor
 						if (sender instanceof Player)
 						{
 							Player player = (Player) sender;
-							if(player.hasPermission(ac.getPermission()))
+							if(ConditionBonusMalus.hasPermission(player, ac))
 							{
 								ArgumentModule am = plugin.getArgumentMap().get(ac.getPath());
 								if(am != null)
@@ -162,7 +163,7 @@ public class CCSCommandExecutor implements CommandExecutor
 		{
 			if(count >= start && count <= end)
 			{
-				if(player.hasPermission(bc.getPermission()))
+				if(ConditionBonusMalus.hasPermission(player, bc))
 				{
 					sendInfo(player, bc);
 				}

@@ -26,7 +26,6 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 	{
 		ArrayList<Condition> clist = Condition.convert(plugin.getMysqlHandler()
 				.getFullList(MysqlHandler.Type.CONDITION, "`id`", "1"));
-		registeredC.addAll(clist);
 		CCS.log.info(clist.size()+" Condition are registered!");
 	}
 	
@@ -159,75 +158,43 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 	
 	public boolean hasConditionEntry(UUID uuid, String conditionName, String internreason)
 	{
-		if(internreason != null)
-		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
-					"`player_uuid` = ? AND `condition_name` = ? AND `intern_reason` = ?",
-					uuid.toString(), conditionName, internreason);
-		}
-		return hasConditionEntry(uuid, conditionName);
+		return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
+				"`player_uuid` = ? AND `condition_name` = ? AND `intern_reason` = ?",
+				uuid.toString(), conditionName, internreason);
 	}
 	
 	public boolean hasConditionEntry(UUID uuid, String conditionName, String server, String world)
 	{
+		boolean boo = false;
 		if(server != null && world == null)
 		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
+			boo = plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
 					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ?"
 					, uuid.toString(), conditionName, server);
-		} else if(server == null && world != null)
-		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
-					"`player_uuid` = ? AND `condition_name` = ? AND `world` = ?"
-					, uuid.toString(), conditionName, world);
 		} else if(server != null && world != null)
 		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
+			boo = plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
 					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ? AND `world` = ?"
 					, uuid.toString(), conditionName, server, world);
 		}
-		return hasConditionEntry(uuid, conditionName);
+		return boo ? boo : hasConditionEntry(uuid, conditionName);
 	}
 	
 	public boolean hasConditionEntry(UUID uuid, String conditionName, String internReason, String server, String world)
 	{
+		boolean boo = false;
 		if(internReason != null && server != null && world != null)
 		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
+			boo = plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
 					"`player_uuid` = ? AND `condition_name` = ? AND `intern_reason` = ? AND `server` = ? AND `world` = ?"
 					, uuid.toString(), conditionName, internReason, server, world);
-		} else if(internReason != null && server == null && world == null)
-		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
-					"`player_uuid` = ? AND `condition_name` = ? AND `intern_reason` = ?"
-					, uuid.toString(), conditionName, internReason);
-		} else if(internReason == null && server != null && world == null)
-		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
-					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ?"
-					, uuid.toString(), conditionName, server);
-		} else if(internReason == null && server == null && world != null)
-		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
-					"`player_uuid` = ? AND `condition_name` = ? AND `world` = ?"
-					, uuid.toString(), conditionName, world);
 		} else if(internReason != null && server != null && world == null)
 		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
+			boo = plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
 					"`player_uuid` = ? AND `condition_name` = ? AND `intern_reason` = ? AND `server` = ?"
 					, uuid.toString(), conditionName, internReason, server);
-		} else if(internReason != null && server == null && world != null)
-		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
-					"`player_uuid` = ? AND `condition_name` = ? AND `intern_reason` = ? AND `world` = ?"
-					, uuid.toString(), conditionName, internReason, world);
-		} else if(internReason == null && server != null && world != null)
-		{
-			return plugin.getMysqlHandler().exist(MysqlHandler.Type.CONDITIONVALUE,
-					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ? AND `world` = ?"
-					, uuid.toString(), conditionName, server, world);
 		}
-	return hasConditionEntry(uuid, conditionName);
+		return boo ? boo : hasConditionEntry(uuid, conditionName, internReason);
 	}
 	
 	public String[] getConditionEntry(UUID uuid, String conditionName)
@@ -237,7 +204,7 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 	
 	public String[] getConditionEntry(UUID uuid, String conditionName, String server, String world)
 	{
-		if(!isRegistered(conditionName)  || !hasConditionEntry(uuid, conditionName, server, world))
+		if(!isRegistered(conditionName) && !hasConditionEntry(uuid, conditionName, server, world))
 		{
 			return null;
 		}
@@ -248,17 +215,13 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE, "`id` ASC",
 					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ?"
 					, uuid.toString(), conditionName, server));
-		} else if(server == null && world != null)
-		{
-			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE, "`id` ASC",
-					"`player_uuid` = ? AND `condition_name` = ? AND `world` = ?"
-					, uuid.toString(), conditionName, world));
 		} else if(server != null && world != null)
 		{
 			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE, "`id` ASC",
 					"`player_uuid` = ? AND `condition_name` = ? AND `server` = ? AND `world` = ?"
 					, uuid.toString(), conditionName, server, world));
-		} else
+		}
+		if(cv == null || cv.isEmpty())
 		{
 			cv = ConditionValue.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.CONDITIONVALUE, "`id` ASC",
 					"`player_uuid` = ? AND `condition_name` = ?"
