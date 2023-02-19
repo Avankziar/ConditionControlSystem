@@ -30,7 +30,7 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 		CCS.log.info(clist.size()+" Condition are registered!");
 	}
 	
-	public boolean isRegistered(String conditionName) //TODO Überprüfen ob wieder zu viele und mehrfach registeriert werden
+	public boolean isRegistered(String conditionName)
 	{
 		for(Condition c : registeredC)
 		{
