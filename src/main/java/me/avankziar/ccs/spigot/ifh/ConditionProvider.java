@@ -26,6 +26,7 @@ public class ConditionProvider implements main.java.me.avankziar.ifh.general.con
 	{
 		ArrayList<Condition> clist = Condition.convert(plugin.getMysqlHandler()
 				.getFullList(MysqlHandler.Type.CONDITION, "`id`", "1"));
+		registeredC.addAll(clist);
 		CCS.log.info(clist.size()+" Condition are registered!");
 	}
 	
