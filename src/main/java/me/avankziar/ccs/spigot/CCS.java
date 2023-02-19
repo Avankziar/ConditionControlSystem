@@ -19,6 +19,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.ccs.spigot.assistance.BackgroundTask;
 import main.java.me.avankziar.ccs.spigot.assistance.Utility;
@@ -38,8 +39,11 @@ import main.java.me.avankziar.ccs.spigot.database.MysqlHandler;
 import main.java.me.avankziar.ccs.spigot.database.MysqlSetup;
 import main.java.me.avankziar.ccs.spigot.database.YamlHandler;
 import main.java.me.avankziar.ccs.spigot.database.YamlManager;
+import main.java.me.avankziar.ccs.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.ccs.spigot.ifh.ConditionProvider;
 import main.java.me.avankziar.ccs.spigot.ifh.ConditionQueryParserProvider;
+import main.java.me.avankziar.ccs.spigot.metrics.Metrics;
+import main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus;
 import main.java.me.avankziar.ifh.spigot.administration.Administration;
 
 public class CCS extends JavaPlugin
@@ -64,6 +68,7 @@ public class CCS extends JavaPlugin
 	public Administration administrationConsumer;
 	private ConditionProvider conditionProvider;
 	private ConditionQueryParserProvider conditonQueryParserProvider;
+	private BonusMalus bonusMalusConsumer;
 	
 	public void onEnable()
 	{
@@ -104,6 +109,7 @@ public class CCS extends JavaPlugin
 		setupCommandTree();
 		setupListeners();
 		setupIFHProvider();
+		setupBstats();
 	}
 	
 	public void onDisable()
@@ -171,7 +177,7 @@ public class CCS extends JavaPlugin
 		new ARGEntry(entry);
 		ArgumentConstructor registered = new ArgumentConstructor(CommandExecuteType.CCS_REGISTERED, "ccs_registered", 0, 0, 1, false, null);
 		new ARGRegistered(registered);
-		ArgumentConstructor remove = new ArgumentConstructor(CommandExecuteType.CCS_REMOVE, "ccs_remove", 0, 2, 999, true, null);
+		ArgumentConstructor remove = new ArgumentConstructor(CommandExecuteType.CCS_REMOVE, "ccs_remove", 0, 2, 3, true, null);
 		new ARGRemove(remove);
 		
 		CommandConstructor ccs = new CommandConstructor(CommandExecuteType.CCS, "ccs", false,
@@ -460,5 +466,64 @@ public class CCS extends JavaPlugin
 	public ConditionQueryParserProvider getConditionQueryParserProvider()
 	{
 		return conditonQueryParserProvider;
+	}
+	
+	public void setupIFHConsumer()
+	{
+		setupIFHBonusMalus();
+	}
+	
+	private void setupIFHBonusMalus() 
+	{
+		if(!new ConfigHandler().isMechanicBonusMalusEnabled())
+		{
+			return;
+		}
+        if(Bukkit.getPluginManager().getPlugin("InterfaceHub") == null) 
+        {
+            return;
+        }
+        new BukkitRunnable()
+        {
+        	int i = 0;
+			@Override
+			public void run()
+			{
+				try
+				{
+					if(i == 20)
+				    {
+						cancel();
+						return;
+				    }
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus> rsp = 
+		                             getServer().getServicesManager().getRegistration(
+		                            		 main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus.class);
+				    if(rsp == null) 
+				    {
+				    	//Check up to 20 seconds after the start, to connect with the provider
+				    	i++;
+				        return;
+				    }
+				    bonusMalusConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> BonusMalus.class is consumed!");
+				    cancel();
+				} catch(NoClassDefFoundError e)
+				{
+					cancel();
+				}
+			}
+        }.runTaskTimer(plugin, 20L, 20*2);
+	}
+	
+	public BonusMalus getBonusMalus()
+	{
+		return bonusMalusConsumer;
+	}
+	
+	public void setupBstats()
+	{
+		int pluginId = 17753; //Bungee 17754
+        new Metrics(this, pluginId);
 	}
 }
