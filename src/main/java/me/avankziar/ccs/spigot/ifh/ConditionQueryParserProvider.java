@@ -14,7 +14,6 @@ import main.java.me.avankziar.ccs.spigot.assistance.MatchApi;
 import main.java.me.avankziar.ifh.general.condition.ConditionQueryParser;
 import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
 import main.java.me.avankziar.ifh.spigot.event.misc.ConditionQueryOutputEvent;
-import me.clip.placeholderapi.PlaceholderAPI;
 
 public class ConditionQueryParserProvider implements ConditionQueryParser
 {	
@@ -368,8 +367,30 @@ public class ConditionQueryParserProvider implements ConditionQueryParser
 			if(var.startsWith("%") && var.endsWith("%") &&
 					Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
 			{
-				String s = PlaceholderAPI.setPlaceholders(other, var);
+				String s = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(other, var);
 				ar = new String[] {s != null ? s : var};
+			} else if(var.startsWith("perm="))
+			{
+				String v = var.substring(5);
+				if(v.isBlank() || v.isEmpty())
+				{
+					ar = new String[] {var}; break;
+				} else
+				{
+					ar = new String[] {String.valueOf(other.hasPermission(v))}; break;
+				}				
+			} else if(var.startsWith("bm="))
+			{
+				String[] v = var.substring(3).split("="); //bm=<Zahl>=bonusmalus
+				if(v.length != 2)
+				{
+					ar = new String[] {String.valueOf(var)}; break;
+				} else
+				{
+					double r = CCS.getPlugin().getBonusMalus().getResult(
+							other.getUniqueId(), Double.parseDouble(v[0]), v[1], CCS.getPlugin().getServername(), other.getWorld().getName());
+					ar = new String[] {String.valueOf(r)}; break;			
+				}
 			} else
 			{
 				String[] arr = CCS.getPlugin().getCondition().getConditionEntry(other.getUniqueId(), var);

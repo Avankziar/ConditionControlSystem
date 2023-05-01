@@ -6,5 +6,5 @@ api-version: 1.17
 description: A Template
 depend: [InterfaceHub]
 softdepend: [PlaceholderAPI]
-website: TBA
+website: https://www.spigotmc.org/resources/conditioncontrolsystem.108097/
 prefix: CCS
